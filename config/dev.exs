@@ -36,7 +36,11 @@ config :phoenix, :stacktrace_depth, 20
 config :chhuti_server, ChhutiServer.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "chhuti_server_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :chhuti_server,
+  google_client_id: "646252629386-aalvnktjfsql35e0cmb28qirhvj7t2p6.apps.googleusercontent.com",
+  google_client_secret: "WGuBUitGojEFwFV4w4GSGQhN"

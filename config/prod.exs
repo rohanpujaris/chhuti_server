@@ -59,3 +59,8 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
+
+
+config :chhuti_server,
+  google_client_id: "646252629386-aalvnktjfsql35e0cmb28qirhvj7t2p6.apps.googleusercontent.com",
+  google_client_secret: "WGuBUitGojEFwFV4w4GSGQhN"

@@ -19,8 +19,9 @@ defmodule ChhutiServer.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ChhutiServer do
-  #   pipe_through :api
-  # end
+  scope "/api", ChhutiServer do
+    pipe_through :api
+
+    get "/google_auth/callback", GoogleAuthController, :callback
+  end
 end
