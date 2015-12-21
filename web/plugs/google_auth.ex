@@ -25,7 +25,7 @@ defmodule ChuttiServer.Plugs.GoogleAuth do
 
   def verify_token_and_get_user_details(%Plug.Conn{params: %{"access_token" => access_token}} = conn) do
     response = HTTPotion.get(get_url(:token_info, access_token))
-    google_client_id = "407408718192.apps.googleusercontent.com" # Application.get_env(:chhuti_server, :google_client_id)
+    google_client_id = Application.get_env(:chhuti_server, :google_client_id)
     case Poison.decode(response.body) do
       {:ok, %{"issued_to" => ^google_client_id}} -> getUserDetails(conn)
       _ -> assign(conn, :google_auth_failure, "Invalid access_token")

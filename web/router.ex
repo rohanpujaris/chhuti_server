@@ -21,7 +21,8 @@ defmodule ChhutiServer.Router do
 
   scope "/api", ChhutiServer do
     pipe_through :api
-
-    get "/google_auth/callback", GoogleAuthController, :callback
+    scope "/v1" do
+      get "/google_auth/callback", GoogleAuthController, :callback
+    end
   end
 end
