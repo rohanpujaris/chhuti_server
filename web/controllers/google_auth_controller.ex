@@ -1,6 +1,6 @@
 defmodule ChhutiServer.GoogleAuthController do
   use ChhutiServer.Web, :controller
-  use ChuttiServer.Plugs.GoogleAuth
+  use ChhutiServer.Plugs.GoogleAuth
 
   alias ChhutiServer.User
 

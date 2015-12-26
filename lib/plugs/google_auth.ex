@@ -1,5 +1,5 @@
 # TODO: Add docs
-defmodule ChuttiServer.Plugs.GoogleAuth do
+defmodule ChhutiServer.Plugs.GoogleAuth do
   import Plug.Conn
 
   @google_urls [
@@ -9,7 +9,7 @@ defmodule ChuttiServer.Plugs.GoogleAuth do
   ]
 
   defmodule ChhutiServer.Behaviour.GoogleAuth do
-    @callback callback(struct, map) :: any
+    @callback callback(Plug.Conn.t, map) :: any
   end
 
   def init(_) do
@@ -23,8 +23,8 @@ defmodule ChuttiServer.Plugs.GoogleAuth do
     "#{@google_urls[:base_url]}#{@google_urls[api_path]}?access_token=#{access_token}"
   end
 
-  def verify_token_and_get_user_details(%Plug.Conn{params: %{"access_token" => access_token}} = conn) do
-    response = HTTPotion.get(get_url(:token_info, access_token))
+  def verify_token_and_get_user_details(%Plug.Conn{assigns: %{access_token: access_token}}=conn) do
+    response = HTTPotion.get(get_url(:token_info, "access_token"))
     google_client_id = Application.get_env(:chhuti_server, :google_client_id)
     case Poison.decode(response.body) do
       {:ok, %{"issued_to" => ^google_client_id}} -> getUserDetails(conn)
@@ -48,8 +48,10 @@ defmodule ChuttiServer.Plugs.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
-      import ChuttiServer.Plugs.GoogleAuth
-      plug ChuttiServer.Plugs.GoogleAuth
+      import ChhutiServer.Plugs.GoogleAuth
+      import ChhutiServer.Plugs.GetAcessToken
+      plug ChhutiServer.Plugs.GetAcessToken
+      plug ChhutiServer.Plugs.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
   end

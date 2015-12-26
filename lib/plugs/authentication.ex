@@ -1,14 +1,15 @@
 # TODO: Add docs, support token in header, find way to create current_user method, add tests
-defmodule ChhuttiServer.Plugs.Authentication do
+defmodule ChhutiServer.Plugs.Authentication do
   import Plug.Conn
   import Phoenix.Controller, only: [json: 2]
+  import ChhutiServer.User
 
   def init(_) do
   end
 
   def call(%Plug.Conn{params: %{"access_token" => access_token}} = conn, _) do
     case Phoenix.Token.verify(conn, "user", access_token, max_age: 1209600) do
-      {:ok, %{user_id: user_id}} -> assign(conn, :current_user_id, user_id)
+      {:ok, %{user_id: user_id}} -> assign(conn, :current_user, Repo.get(User, user_id))
       {:error, reason} ->
         message = if reason == :expired do
           "Access token expired. Please login again"
@@ -28,9 +29,9 @@ defmodule ChhuttiServer.Plugs.Authentication do
     |> halt
   end
 
-  defmacro __using__(options) do
+  defmacro __using__(_) do
     quote do
-      import ChhuttiServer.Plugs.Authentication
+      import ChhutiServer.Plugs.Authentication
     end
   end
 end
