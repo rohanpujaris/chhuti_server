@@ -5,7 +5,7 @@ defmodule ChhutiServer.GoogleAuthController do
   alias ChhutiServer.User
 
   def callback(%Plug.Conn{assigns: %{google_auth_success: user_details}} = conn, _) do
-    if user = Repo.get_by(User, %{email: "rohan.pujari@kiprosh.com"}) do
+    if user = Repo.get_by(User, %{email: user_details.email}) do
       json conn, %{token: Phoenix.Token.sign(conn, "user", %{user_id: user.id})}
     else
       changeset = User.changeset(%User{}, user_details)

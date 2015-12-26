@@ -24,8 +24,8 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
   end
 
   def verify_token_and_get_user_details(%Plug.Conn{assigns: %{access_token: access_token}}=conn) do
-    response = HTTPotion.get(get_url(:token_info, "access_token"))
-    google_client_id = Application.get_env(:chhuti_server, :google_client_id)
+    response = HTTPotion.get(get_url(:token_info, access_token))
+    google_client_id = "407408718192.apps.googleusercontent.com" #Application.get_env(:chhuti_server, :google_client_id)
     case Poison.decode(response.body) do
       {:ok, %{"issued_to" => ^google_client_id}} -> getUserDetails(conn)
       _ -> assign(conn, :google_auth_failure, "Invalid access_token")
@@ -36,7 +36,7 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
     assign(conn, :google_auth_failure, "Please send access_token with request")
   end
 
-  def getUserDetails(%Plug.Conn{params: %{"access_token" => access_token}} = conn) do
+  def getUserDetails(%Plug.Conn{assigns: %{access_token: access_token}} = conn) do
     response = HTTPotion.get(get_url(:user_details, access_token))
     case Poison.decode(response.body) do
       {:ok, %{"email" => email, "name" => name, "picture" => picture}} ->
@@ -48,8 +48,9 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
-      plug ChhutiServer.Plugs.GetAcessToken
-      plug ChhutiServer.Plugs.GoogleAuth
+      import ChhutiServer.Behaviour.GoogleAuth
+      plug Elixir.ChhutiServer.Plugs.GetAcessToken
+      plug Elixir.ChhutiServer.Plugs.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
   end
