@@ -10,6 +10,9 @@ defmodule ChhutiServer.Plugs.GetAcessToken do
       get_req_header(conn, "authorization")
         |> to_string
         |> String.replace("Token token=", "")
-    if access_token, do: assign(conn, :access_token, access_token)
+    if access_token != "" do
+      conn = assign(conn, :access_token, access_token)
+    end
+    conn
   end
 end

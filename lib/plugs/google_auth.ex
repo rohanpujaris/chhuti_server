@@ -8,10 +8,6 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
     user_details: "/userinfo"
   ]
 
-  defmodule ChhutiServer.Behaviour.GoogleAuth do
-    @callback callback(Plug.Conn.t, map) :: any
-  end
-
   def init(_) do
   end
 
@@ -48,10 +44,13 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
-      import ChhutiServer.Behaviour.GoogleAuth
-      plug Elixir.ChhutiServer.Plugs.GetAcessToken
-      plug Elixir.ChhutiServer.Plugs.GoogleAuth
+      plug ChhutiServer.Plugs.GetAcessToken
+      plug ChhutiServer.Plugs.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
   end
+end
+
+defmodule ChhutiServer.Behaviour.GoogleAuth do
+  @callback callback(Plug.Conn.t, map) :: any
 end
