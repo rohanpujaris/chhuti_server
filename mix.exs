@@ -37,7 +37,9 @@ defmodule ChhutiServer.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
-     {:httpotion, "~> 2.1.0"}]
+     {:httpotion, "~> 2.1.0"},
+     {:earmark, "~> 0.1", only: :dev},
+     {:ex_doc, "~> 0.11", only: :dev}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
