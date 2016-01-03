@@ -12,7 +12,7 @@ defmodule ChhutiServer.Plug.GoogleAuth do
     verify_token_and_get_user_details(conn)
   end
 
-  def verify_token_and_get_user_details(%Plug.Conn{assigns: %{access_token: access_token}}=conn) do
+  def verify_token_and_get_user_details(%Plug.Conn{private: %{access_token: access_token}}=conn) do
     google_client_id = Application.get_env(:chhuti_server, :google_client_id)
     case @google_auth_request.token_info(access_token) do
       {:ok, %{"issued_to" => ^google_client_id}} -> getUserDetails(conn)
@@ -24,7 +24,7 @@ defmodule ChhutiServer.Plug.GoogleAuth do
     assign(conn, :google_auth_failure, "Please send access_token with request")
   end
 
-  def getUserDetails(%Plug.Conn{assigns: %{access_token: access_token}} = conn) do
+  def getUserDetails(%Plug.Conn{private: %{access_token: access_token}} = conn) do
     case @google_auth_request.user_details(access_token) do
       {:ok, %{"email" => email, "name" => name, "picture" => picture}} ->
         assign(conn, :google_auth_success, %{name: name, email: email, picture: picture})
@@ -35,7 +35,7 @@ defmodule ChhutiServer.Plug.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
-      plug ChhutiServer.Plug.GetAcessToken
+      plug AccessTokenExtractor
       plug ChhutiServer.Plug.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
