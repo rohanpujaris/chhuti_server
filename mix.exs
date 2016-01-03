@@ -40,7 +40,7 @@ defmodule ChhutiServer.Mixfile do
      {:httpotion, "~> 2.1.0"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.11", only: :dev},
-     {:inflex, "~> 1.5.0" }]
+     {:module_mocker, "~> 0.1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

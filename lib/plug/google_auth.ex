@@ -1,7 +1,7 @@
 # TODO: Add docs
 defmodule ChhutiServer.Plug.GoogleAuth do
   import Plug.Conn
-  import ChhutiServer.Mocker
+  import ModuleMocker
 
   mock_for_test ChhutiServer.Plug.GoogleAuthRequest
 

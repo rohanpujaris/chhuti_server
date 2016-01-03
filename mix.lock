@@ -11,6 +11,7 @@
   "inflex": {:hex, :inflex, "1.5.0"},
   "meck": {:hex, :meck, "0.8.4"},
   "mock": {:hex, :mock, "0.1.1"},
+  "module_mocker": {:hex, :module_mocker, "0.1.0"},
   "phoenix": {:hex, :phoenix, "1.0.4"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "1.2.0"},
   "phoenix_html": {:hex, :phoenix_html, "2.3.0"},
