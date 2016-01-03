@@ -34,7 +34,7 @@ defmodule ChhutiServer.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import ChhutiServer.Router.Helpers
-      use ChhutiServer.Plugs.Authentication
+      use ChhutiServer.Plug.Authentication
     end
   end
 

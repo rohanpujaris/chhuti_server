@@ -1,13 +1,6 @@
 defmodule ChhutiServer.Api.V1.GoogleAuthController do
   use ChhutiServer.Web, :controller
-  use ChhutiServer.Plugs.GoogleAuth
-
-  import ChhutiServer.Mocker
-
-  mock_for_test ChhutiServer.Plugs.GoogleAuth
-
-  plug ChhutiServer.Plugs.GetAcessToken
-  plug @google_auth
+  use ChhutiServer.Plug.GoogleAuth
 
   alias ChhutiServer.User
 

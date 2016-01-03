@@ -34,8 +34,8 @@ defmodule ChhutiServer.Api.V1.GoogleAuthControllerTest do
     get conn(), "/api/v1/google_auth/callback?access_token=#{token}"
     user = Repo.one(User |> order_by(desc: :updated_at) |> limit(1))
     user_mock_data = mock_data[:user_details_for_kiprosher_email]
-    assert user.name == user_mock_data.name
-    assert user.email == user_mock_data.email
-    assert user.picture == user_mock_data.picture
+    assert user.name == user_mock_data["name"]
+    assert user.email == user_mock_data["email"]
+    assert user.picture == user_mock_data["picture"]
   end
 end

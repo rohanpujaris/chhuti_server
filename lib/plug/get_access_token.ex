@@ -1,4 +1,4 @@
-defmodule ChhutiServer.Plugs.GetAcessToken do
+defmodule ChhutiServer.Plug.GetAcessToken do
   import Plug.Conn
   import Plug.Builder, only: [plug: 1]
 

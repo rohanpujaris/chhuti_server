@@ -15,7 +15,7 @@ defmodule ChhutiServer.Router do
 
   pipeline :mandatory_authentication_api_endpoints do
     plug :accepts, ["json"]
-    plug ChhutiServer.Plugs.Authentication
+    plug ChhutiServer.Plug.Authentication
   end
 
   scope "/", ChhutiServer do

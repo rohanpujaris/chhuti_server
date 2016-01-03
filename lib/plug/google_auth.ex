@@ -1,28 +1,20 @@
 # TODO: Add docs
-defmodule ChhutiServer.Plugs.GoogleAuth do
+defmodule ChhutiServer.Plug.GoogleAuth do
   import Plug.Conn
+  import ChhutiServer.Mocker
 
-  @google_urls [
-    base_url: "https://www.googleapis.com/oauth2/v2",
-    token_info: "/tokeninfo",
-    user_details: "/userinfo"
-  ]
+  mock_for_test ChhutiServer.Plug.GoogleAuthRequest
 
   def init(_) do
   end
 
-  def call(conn, _)do
+  def call(conn, _) do
     verify_token_and_get_user_details(conn)
   end
 
-  def get_url(api_path, access_token) do
-    "#{@google_urls[:base_url]}#{@google_urls[api_path]}?access_token=#{access_token}"
-  end
-
   def verify_token_and_get_user_details(%Plug.Conn{assigns: %{access_token: access_token}}=conn) do
-    response = HTTPotion.get(get_url(:token_info, access_token))
-    google_client_id = "407408718192.apps.googleusercontent.com" #Application.get_env(:chhuti_server, :google_client_id)
-    case Poison.decode(response.body) do
+    google_client_id = Application.get_env(:chhuti_server, :google_client_id)
+    case @google_auth_request.token_info(access_token) do
       {:ok, %{"issued_to" => ^google_client_id}} -> getUserDetails(conn)
       _ -> assign(conn, :google_auth_failure, "Invalid access_token")
     end
@@ -33,8 +25,7 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
   end
 
   def getUserDetails(%Plug.Conn{assigns: %{access_token: access_token}} = conn) do
-    response = HTTPotion.get(get_url(:user_details, access_token))
-    case Poison.decode(response.body) do
+    case @google_auth_request.user_details(access_token) do
       {:ok, %{"email" => email, "name" => name, "picture" => picture}} ->
         assign(conn, :google_auth_success, %{name: name, email: email, picture: picture})
       {:ok, %{"error" => %{"message" => error_message}}} ->
@@ -44,6 +35,8 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
+      plug ChhutiServer.Plug.GetAcessToken
+      plug ChhutiServer.Plug.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
   end

@@ -1,5 +1,5 @@
 # TODO: Add docs, support token in header, find way to create current_user method, add tests
-defmodule ChhutiServer.Plugs.Authentication do
+defmodule ChhutiServer.Plug.Authentication do
   import Plug.Conn
   import Phoenix.Controller, only: [json: 2]
   import ChhutiServer.User
@@ -31,7 +31,7 @@ defmodule ChhutiServer.Plugs.Authentication do
 
   defmacro __using__(_) do
     quote do
-      import ChhutiServer.Plugs.Authentication
+      import ChhutiServer.Plug.Authentication
     end
   end
 end

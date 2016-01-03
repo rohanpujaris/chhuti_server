@@ -18,7 +18,7 @@ defmodule ChhutiServer.Mocker do
 
   def mock_module_name(module) do
     module
-      |> List.insert_at(-2, :Mocks)
+      |> List.insert_at(-2, :Mock)
       |> Module.concat
   end
 end
