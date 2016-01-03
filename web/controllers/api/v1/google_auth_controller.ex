@@ -1,6 +1,13 @@
-defmodule ChhutiServer.GoogleAuthController do
+defmodule ChhutiServer.Api.V1.GoogleAuthController do
   use ChhutiServer.Web, :controller
   use ChhutiServer.Plugs.GoogleAuth
+
+  import ChhutiServer.Mocker
+
+  mock_for_test ChhutiServer.Plugs.GoogleAuth
+
+  plug ChhutiServer.Plugs.GetAcessToken
+  plug @google_auth
 
   alias ChhutiServer.User
 
@@ -15,7 +22,7 @@ defmodule ChhutiServer.GoogleAuthController do
         {:error, %{errors: errors}} ->
           conn
           |> put_status(422)
-          |> json %{errors: Enum.into(errors, %{})}
+          |> json %{error: Enum.into(errors, %{})}
       end
     end
   end
@@ -23,6 +30,6 @@ defmodule ChhutiServer.GoogleAuthController do
   def callback(%Plug.Conn{assigns: %{google_auth_failure: error_message}} = conn, _) do
     conn
     |> put_status(401)
-    |> json %{errors: error_message}
+    |> json %{error: error_message}
   end
 end

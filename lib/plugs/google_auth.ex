@@ -44,8 +44,6 @@ defmodule ChhutiServer.Plugs.GoogleAuth do
 
   defmacro __using__(_) do
     quote do
-      plug ChhutiServer.Plugs.GetAcessToken
-      plug ChhutiServer.Plugs.GoogleAuth
       @behaviour ChhutiServer.Behaviour.GoogleAuth
     end
   end
