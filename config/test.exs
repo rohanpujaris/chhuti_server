@@ -18,14 +18,11 @@ config :chhuti_server, ChhutiServer.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :chhuti_server, :google_auth_mock_data,
-  valid_token_for_kiprosher_email: "abc",
-  valid_token_for_non_kiprosher_email: "mno",
-  valid_token_from_invalid_client_id: "pqr",
-  invalid_token: "xyz",
-  user_details_for_kiprosher_email: %{"name" => "rohan", "email" => "rohan@kiprosh.com", "picture" => "http://a.com/pic.jpg"},
-  user_details_for_non_kiprosher_email: %{"name" => "rohan", "email" => "rohan@abc.com", "picture" => "http://a.com/pic.jpg"}
+config :google_auth, :mock_data,
+  valid_token_data: %{
+    kiprosh_email: %{name: "rohan", email: "rohan@kiprosh.com", picture: "http://a.com/pic.jpg"},
+    non_kiprosh_email: %{name: "rohan", email: "rohan@gmail.com", picture: "http://a.com/pic.jpg"}
+  }
 
-config :chhuti_server,
-  google_client_id: "646252629386-aalvnktjfsql35e0cmb28qirhvj7t2p6.apps.googleusercontent.com",
-  google_client_secret: "WGuBUitGojEFwFV4w4GSGQhN"
+config :google_auth,
+  google_client_id: "646252629386-aalvnktjfsql35e0cmb28qirhvj7t2p6.apps.googleusercontent.com"

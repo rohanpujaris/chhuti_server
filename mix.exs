@@ -38,10 +38,11 @@ defmodule ChhutiServer.Mixfile do
      {:cowboy, "~> 1.0"},
      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
      {:httpotion, "~> 2.1.0"},
+     {:module_mocker, "~> 0.2.0"},
+     {:access_token_extractor, "~> 0.1.0"},
+     {:google_auth, "~> 0.0.1"},
      {:earmark, "~> 0.1", only: :dev},
-     {:ex_doc, "~> 0.11", only: :dev},
-     {:module_mocker, "~> 0.1.0"},
-     {:access_token_extractor, "~> 0.1.0"}]
+     {:ex_doc, "~> 0.11", only: :dev}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

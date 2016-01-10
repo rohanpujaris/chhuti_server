@@ -1,10 +1,12 @@
 defmodule ChhutiServer.Api.V1.GoogleAuthController do
+  import ModuleMocker
+
   use ChhutiServer.Web, :controller
-  use ChhutiServer.Plug.GoogleAuth
+  use GoogleAuth
 
   alias ChhutiServer.User
 
-  def callback(%Plug.Conn{assigns: %{google_auth_success: user_details}} = conn, _) do
+  def callback(%Plug.Conn{private: %{google_auth_success: user_details}} = conn, _) do
     if user = Repo.get_by(User, %{email: user_details.email}) do
       json conn, %{token: Phoenix.Token.sign(conn, "user", %{user_id: user.id})}
     else
@@ -20,9 +22,9 @@ defmodule ChhutiServer.Api.V1.GoogleAuthController do
     end
   end
 
-  def callback(%Plug.Conn{assigns: %{google_auth_failure: error_message}} = conn, _) do
+  def callback(%Plug.Conn{private: %{google_auth_failure: error_message}} = conn, _) do
     conn
-    |> put_status(401)
-    |> json %{error: error_message}
+      |> put_status(401)
+      |> json %{error: error_message}
   end
 end
