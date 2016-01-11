@@ -13,7 +13,16 @@ config :logger, level: :warn
 config :chhuti_server, ChhutiServer.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "chhuti_server_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :google_auth, :mock_data,
+  valid_token_data: %{
+    kiprosh_email: %{name: "rohan", email: "rohan@kiprosh.com", picture: "http://a.com/pic.jpg"},
+    non_kiprosh_email: %{name: "rohan", email: "rohan@gmail.com", picture: "http://a.com/pic.jpg"}
+  }
+
+config :google_auth,
+  google_client_id: "646252629386-aalvnktjfsql35e0cmb28qirhvj7t2p6.apps.googleusercontent.com"

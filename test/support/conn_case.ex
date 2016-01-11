@@ -22,7 +22,7 @@ defmodule ChhutiServer.ConnCase do
 
       alias ChhutiServer.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto.Query, only: [from: 2, order_by: 2, limit: 2]
 
       import ChhutiServer.Router.Helpers
 

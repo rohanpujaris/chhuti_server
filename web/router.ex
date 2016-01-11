@@ -13,14 +13,29 @@ defmodule ChhutiServer.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :mandatory_authentication_api_endpoints do
+    plug :accepts, ["json"]
+    plug ChhutiServer.Plug.Authentication
+  end
+
   scope "/", ChhutiServer do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ChhutiServer do
-  #   pipe_through :api
-  # end
+  # Below endpoints won't require authetication
+  scope "/api", ChhutiServer.Api do
+    pipe_through :api
+    scope "/v1", V1 do
+      get "/google_auth/callback", GoogleAuthController, :callback
+    end
+  end
+
+  # Below endpoints would require authentication
+  scope "/api", ChhutiServer.Api do
+    pipe_through :mandatory_authentication_api_endpoints
+    scope "/v1", V1 do
+    end
+  end
 end

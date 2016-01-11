@@ -19,7 +19,7 @@ defmodule ChhutiServer.Mixfile do
   def application do
     [mod: {ChhutiServer, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :httpotion]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,6 +36,11 @@ defmodule ChhutiServer.Mixfile do
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
+     {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
+     {:httpotion, "~> 2.1.0"},
+     {:module_mocker, "~> 0.2.0"},
+     {:access_token_extractor, "~> 0.1.0"},
+     {:google_auth, "~> 0.0.1"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.11", only: :dev}]
   end
